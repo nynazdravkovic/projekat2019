@@ -4,7 +4,7 @@ Created on Sat Apr  6 01:11:06 2019
 
 @author: nina
 """
-
+#
 
 import sympy
 import numpy
