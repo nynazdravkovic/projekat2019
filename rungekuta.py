@@ -10,7 +10,7 @@ Created on Thu Jul 18 11:27:34 2019
 #ro'10 = -ro10 - I*(d*ro10 - o*ro00/2 + o*ro11/2)
 #ro'11 = -ro11 - I*(-o*ro01/2 + o*ro10/2)
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 ro00 = 1
 ro01 = 1
@@ -20,10 +20,11 @@ o = 0.5
 delte = []
 
 I = complex(0,1)
-
+matricaGustineIm = []
 matricaGustineRe = []
 for j in range(100):
     a = []
+    c = []
     b = []
     t = 0.
     h = 0.02
@@ -66,15 +67,16 @@ for j in range(100):
         ro01 = ro01 + (h/6.)*(k21+(2.*k22)+(2.*k23)+k24)
         ro10 = ro10 + (h/6.)*(k31+(2.*k32)+(2.*k33)+k34)
         ro11 = ro11 + (h/6.)*(k41+(2.*k42)+(2.*k43)+k44)
-        a.append(ro01.real)
+        a.append(ro10.real)
+        c.append(ro10.imag)
         b.append(t)
     matricaGustineRe.append(a)
-print(len(b[1:]))
-print(delte[1:])
-print(len(matricaGustineRe[1:]))
+    matricaGustineIm.append(c)
+#print(len(b[1:]))
+#print(delte[1:])
+#print(len(matricaGustineRe[1:]))
 
 #print(b)
-
 
 
 #plotovanje 2d
@@ -85,10 +87,12 @@ print(len(matricaGustineRe[1:]))
 #plt.show()
     
 #pokusaj plotovanja 3d:
-
 fig = plt.figure()
-ax = plt.axes(projection='3d')
+fig.suptitle('Realni deo', fontsize=16)
+ax = fig.add_subplot(111, projection='3d')
 ax.contour3D(b, delte, matricaGustineRe, 50, cmap='binary')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('z')
+ax.set_xlabel('t')
+ax.set_ylabel('delta')
+ax.set_zlabel('ro10')
+
+

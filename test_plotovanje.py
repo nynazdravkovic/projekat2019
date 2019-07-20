@@ -11,51 +11,77 @@ from mpl_toolkits.mplot3d import Axes3D
 #u ovom kodu plotujem samo jednacine
 o = 0.5
 j = complex(0,1)
-ro01_im=[]
+
 ro00_im=[]
 ro10_im=[]
 ro11_im=[]
 ro11_re=[]
 ro00_re=[]
-ro01_re=[]
 ro10_re=[]
-delta=np.linspace(-500,500,1000)
-t=100
+delta=np.linspace(-50,50,100)
+time=np.linspace(0,1,100)
+matricaGustineIm = []
+matricaGustineRe = []
+for k in range(100):
+    ro01_im=[]    
+    ro01_re=[]
+    for i in range (100):
+        d = (i-50)/50   
+        t = k/100
+        if d == 0:
+            rho01=0
+            rho11=0
+            rho00=0
+            rho10=0
+        else:    
+            rho01= -o/(2*d) - o*np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d - np.sqrt(2)*np.sqrt(2*d**2 + o**2)) - o*np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d + np.sqrt(2)*np.sqrt(2*d**2 + o**2)) 
+            rho10= -o/(2*d) - o*np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d + np.sqrt(2)*np.sqrt(2*d**2 + o**2)) - o*np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d - np.sqrt(2)*np.sqrt(2*d**2 + o**2)) 
+            rho11= 1 + np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2) + np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)
+            rho00= -np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2) + np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)
+        ro01_im.append(rho01.imag)
+        ro01_re.append(rho01.real)
+    matricaGustineIm.append(ro01_im)
+    matricaGustineRe.append(ro01_re)
 
-for i in range (1000):
-    d = (i-500)/500    
-    if d == 0:
-        rho01=0
-        rho11=0
-        rho00=0
-        rho10=0
-    else:    
-        rho01= -o/(2*d) - o*np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d - np.sqrt(2)*np.sqrt(2*d**2 + o**2)) - o*np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d + np.sqrt(2)*np.sqrt(2*d**2 + o**2)) 
-        rho10= -o/(2*d) - o*np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d + np.sqrt(2)*np.sqrt(2*d**2 + o**2)) - o*np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)/(2*d - np.sqrt(2)*np.sqrt(2*d**2 + o**2)) 
-        rho11= 1 + np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2) + np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)
-        rho00= -np.exp(-j*t*np.sqrt(4*d**2 + 2*o**2)/2) + np.exp(j*t*np.sqrt(4*d**2 + 2*o**2)/2)
-    ro01_im.append(rho01.imag)
-    ro01_re.append(rho01.real)
-    ro10_im.append(rho10.imag)
-    ro10_re.append(rho10.real)
+print(len(time))
+
+#print(time)
+fig = plt.figure()
+fig.suptitle('Realni deo', fontsize=16)
+ax = fig.add_subplot(111, projection='3d')
+ax.contour3D(time, delta, matricaGustineRe, 50, cmap='binary')
+ax.set_xlabel('t')
+ax.set_ylabel('delta')
+ax.set_zlabel('ro10')
+
+fig = plt.figure()
+fig.suptitle('Imaginarni deo', fontsize=16)
+ax = fig.add_subplot(111, projection='3d')
+ax.contour3D(time, delta, matricaGustineIm, 50, cmap='binary')
+ax.set_xlabel('t')
+ax.set_ylabel('delta')
+ax.set_zlabel('ro10')
+
+
+
         
-plt.plot(delta,ro01_im)
-plt.title("Imaginarni deo")
-plt.xlabel("delta")
-plt.ylabel("rho01")
-plt.show()
-plt.plot(delta,ro10_im)
-plt.title("Imaginarni deo")
-plt.xlabel("delta")
-plt.ylabel("rho10")
-plt.show()
-plt.plot(delta,ro01_re)
-plt.title("Realni deo")
-plt.xlabel("delta")
-plt.ylabel("rho01")
-plt.show()
-plt.plot(delta,ro10_re)
-plt.title("Realni deo")
-plt.xlabel("delta")
-plt.ylabel("rho10")
-plt.show()
+#plt.plot(delta,ro01_im)
+#plt.title("Imaginarni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho01")
+#plt.show()
+#plt.plot(delta,ro10_im)
+#plt.title("Imaginarni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho10")
+#plt.show()
+#plt.plot(delta,ro01_re)
+#plt.title("Realni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho01")
+#plt.show()
+#plt.plot(delta,ro10_re)
+#plt.title("Realni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho10")
+#plt.show()
