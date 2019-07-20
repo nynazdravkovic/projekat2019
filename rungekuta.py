@@ -25,11 +25,11 @@ matricaGustineRe = []
 a = []
 b = []
 c = []
-
+a1 = []
 t = 0.
 h = 0.02
 
-while (t<1):
+while (t<4):
     k11 = ro11 - I*(o*ro01/2. - o*ro10/2.)
     k21 = -ro01 - I*(-d*ro01 + o*ro00/2. - o*ro11/2.)
     k31 = -ro10 - I*(d*ro10 - o*ro00/2. + o*ro11/2.)
@@ -66,18 +66,26 @@ while (t<1):
     ro01 = ro01 + (h/6.)*(k21+(2.*k22)+(2.*k23)+k24)
     ro10 = ro10 + (h/6.)*(k31+(2.*k32)+(2.*k33)+k34)
     ro11 = ro11 + (h/6.)*(k41+(2.*k42)+(2.*k43)+k44)
-    a.append(ro01.real)
+    a.append(ro00.real)
     c.append(ro01.imag)
+    a1.append(ro01.real)
     b.append(t)
 
 #plotovanje 2d
 plt.plot(b,a)
 plt.title("Realni deo")
 plt.xlabel("t")
+plt.ylabel("rho00")
+plt.savefig('ro00re.png')
+plt.show()
+ 
+plt.plot(b,a)
+plt.title("Realni deo")
+plt.xlabel("t")
 plt.ylabel("rho01")
 plt.savefig('ro01re.png')
 plt.show()
-    
+   
 plt.plot(b,c)
 plt.title("Imaginarni deo")
 plt.xlabel("t")
