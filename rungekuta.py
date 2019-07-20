@@ -18,20 +18,18 @@ ro10 = 0
 ro11 = 0
 o = 0.5
 delte = []
-d = 0
+d = 0.1
 I = complex(0,1)
 matricaGustineIm = []
 matricaGustineRe = []
-#for j in range(100):
-#    a = []
-#    c = []
-#    b = []
+a = []
+b = []
+c = []
+
 t = 0.
 h = 0.02
-#    d = (j - 50)/50
-#    delte.append(d)
+
 while (t<1):
-    
     k11 = ro11 - I*(o*ro01/2. - o*ro10/2.)
     k21 = -ro01 - I*(-d*ro01 + o*ro00/2. - o*ro11/2.)
     k31 = -ro10 - I*(d*ro10 - o*ro00/2. + o*ro11/2.)
@@ -68,32 +66,23 @@ while (t<1):
     ro01 = ro01 + (h/6.)*(k21+(2.*k22)+(2.*k23)+k24)
     ro10 = ro10 + (h/6.)*(k31+(2.*k32)+(2.*k33)+k34)
     ro11 = ro11 + (h/6.)*(k41+(2.*k42)+(2.*k43)+k44)
-    a.append(ro10.real)
-    c.append(ro10.imag)
+    a.append(ro01.real)
+    c.append(ro01.imag)
     b.append(t)
-#matricaGustineRe.append(a)
-#matricaGustineIm.append(c)
-#print(len(b[1:]))
-#print(delte[1:])
-#print(len(matricaGustineRe[1:]))
-
-#print(b)
-
 
 #plotovanje 2d
 plt.plot(b,a)
 plt.title("Realni deo")
 plt.xlabel("t")
-plt.ylabel("rho10")
+plt.ylabel("rho01")
+plt.savefig('ro01re.png')
 plt.show()
     
-#pokusaj plotovanja 3d:
-#fig = plt.figure()
-#fig.suptitle('Realni deo', fontsize=16)
-#ax = fig.add_subplot(111, projection='3d')
-#ax.contour3D(b, delte, matricaGustineRe, 50, cmap='binary')
-#ax.set_xlabel('t')
-#ax.set_ylabel('delta')
-#ax.set_zlabel('ro10')
+plt.plot(b,c)
+plt.title("Imaginarni deo")
+plt.xlabel("t")
+plt.ylabel("rho01")
+plt.savefig('ro01im.png')
 
+plt.show()
 
