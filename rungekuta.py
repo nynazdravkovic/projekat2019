@@ -10,7 +10,6 @@ Created on Thu Jul 18 11:27:34 2019
 #ro'10 = -ro10 - I*(d*ro10 - o*ro00/2 + o*ro11/2)
 #ro'11 = -ro11 - I*(-o*ro01/2 + o*ro10/2)
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 Gamma02=1.
 Gamma12=1.
@@ -34,32 +33,15 @@ ro22 = 0.
 
 op = 0.5
 oc = 0.5
-dp = 0.
-dc = 0.
+dp = 0.1
+dc = 0.1
 I = complex(0,1)
-
-#matricaGustineIm = []
-#matricaGustineRe = []
 a = []
 b = []
-matricaGustineIm = np.zeros((9,401),dtype=np.complex128)
-matricaGustineRe = np.zeros((9,401),dtype=np.complex128)
 f = []
 a1 = []
 t = 0.
 h = 0.02
-imaginarno = []
-realno = []
-f1 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
-f2 = -gamma01*ro01 - 1.0*I*(0.5*oc*ro02 - 0.5*op*ro21 - ro01*(dc - dp))
-f3 = -gamma02*ro02 - 1.0*I*(dp*ro02 + 0.5*oc*ro01 + 0.5*op*ro00 - 0.5*op*ro22)
-f4 = -gamma10*ro10 - 1.0*I*(-0.5*oc*ro20 + 0.5*op*ro12 + ro10*(dc - dp))
-f5 = -Gamma01*ro11 + Gamma12*ro22 - 1.0*I*(0.5*oc*ro12 - 0.5*oc*ro21)
-f6 = -gamma12*ro12 - 1.0*I*(dp*ro12 + 0.5*oc*ro11 - 0.5*oc*ro22 + 0.5*op*ro10 + ro12*(dc - dp))
-f7 = -gamma20*ro20 - 1.0*I*(-dp*ro20 - 0.5*oc*ro10 - 0.5*op*ro00 + 0.5*op*ro22)
-f8 = -gamma21*ro21 - 1.0*I*(-dp*ro21 - 0.5*oc*ro11 + 0.5*oc*ro22 - 0.5*op*ro01 - ro21*(dc - dp))
-f9 = -Gamma02*ro22 - Gamma12*ro22 - 1.0*I*(-0.5*oc*ro12 + 0.5*oc*ro21 - 0.5*op*ro02 + 0.5*op*ro20)
-ro = [ro00,ro01,ro02,ro10,ro11,ro12,ro20,ro21,ro22]
  
 while (t<4):
     k11 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
@@ -138,16 +120,9 @@ while (t<4):
     ro20 = ro20 + (h/6.)*(k71+(2.*k72)+(2.*k73)+k74)
     ro21 = ro21 + (h/6.)*(k81+(2.*k82)+(2.*k83)+k84)
     ro22 = ro22 + (h/6.)*(k91+(2.*k92)+(2.*k93)+k94)    
-    a.append(ro00.imag)
+    a.append(ro21.imag)
     f.append(t)
-#for i in range(401):
-#    for j in range(9):
-#        matricaGustineRe[j][i] = a[i][j].imag
-#        matricaGustineIm[j][i] = a[i][j].real
     
-#e = np.transpose(e)
-#print(c[0])
-#plotovanje 2d
 plt.plot(f,a)
 plt.title("Realni deo")
 plt.xlabel("t")
