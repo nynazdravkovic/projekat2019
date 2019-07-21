@@ -45,53 +45,39 @@ f7 = -gamma20*ro[6] - 1.0*I*(-dp*ro[6] - 0.5*oc*ro[3] - 0.5*op*ro[0] + 0.5*op*ro
 f8 = -gamma21*ro[7] - 1.0*I*(-dp*ro[7] - 0.5*oc*ro[4] + 0.5*oc*ro[8] - 0.5*op*ro[1] - ro[7]*(dc - dp))
 f9 = -Gamma02*ro[8] - Gamma12*ro[8] - 1.0*I*(-0.5*oc*ro[5] + 0.5*oc*ro[7] - 0.5*op*ro[2] + 0.5*op*ro[6])
 c= []
-F = [f1,f2,f3,f4,f5,f6,f7,f8,f9]
 t = 0.
-brojPonavljanja = 100
-h = 0.0005
-print(F[1])
+brojPonavljanja = 500
+h = 0.001
 matricaGustineIm = np.zeros((9,brojPonavljanja))
 matricaGustineRe = np.zeros((9,brojPonavljanja))
 for x in range(brojPonavljanja):
+    F = [f1,f2,f3,f4,f5,f6,f7,f8,f9]
     for j in range(4):
-        print('/')
         for i in range(9):
             k[j][i] = F[i]
-            F[i] = ro[i]+h*0.5*k[j][i]
-        print(F)
+            F[i] = ro[i]+h*k[j][i]/2
     for i in range(9):
-        F[i] += (1/6)*(k[0][i]+2*k[1][i]+2*k[2][i]+k[3][i])
+        ro[i] += (1/6)*(k[0][i]+2*k[1][i]+2*k[2][i]+k[3][i])
     for i in range(9):    
-         matricaGustineIm[i][x] = F[i].imag
-         matricaGustineRe[i][x] = F[i].real
+        matricaGustineIm[i][x] = ro[i].imag
+        matricaGustineRe[i][x] = ro[i].real
     c.append(t)
-    t+=h/2
+    t+=h
+    
+np.savetxt("matricaGustineRe.csv", matricaGustineRe, delimiter=",")
+np.savetxt("matricaGustineIm.csv", matricaGustineIm, delimiter=",")
 for i in range(9):
     plt.plot(c,matricaGustineRe[i])
     plt.title("Realni deo")
     plt.xlabel("t")
+    b = 'ro'+str(i)+'Re'
+    plt.savefig(b)
     plt.show()
 for i in range(9):
     plt.plot(c,matricaGustineIm[i])
     plt.title("Imaginarni deo")
     plt.xlabel("t")
+    b = 'ro'+str(i)+'Im'
+    plt.ylabel(b)
+    plt.savefig(b)
     plt.show()
-#plt.title("Realni deo")
-#plt.xlabel("t")
-#plt.ylabel("rho20")
-#plt.savefig('ro01re_3n.png')
-#plt.show()
-#   
-#plt.plot(c,a)
-#plt.title("Imaginarni deo")
-#plt.xlabel("t")
-#plt.ylabel("rho20")
-#plt.savefig('ro01im_3n.png')
-#plt.show()
-#
-#plt.plot(c,e)
-#plt.title("Realni deo")
-#plt.xlabel("t")
-#plt.ylabel("rho00")
-#plt.savefig('ro00re_3n.png')
-#plt.show()
