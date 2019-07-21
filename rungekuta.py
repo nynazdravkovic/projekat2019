@@ -11,6 +11,7 @@ Created on Thu Jul 18 11:27:34 2019
 #ro'11 = -ro11 - I*(-o*ro01/2 + o*ro10/2)
 import matplotlib.pyplot as plt
 import numpy as np
+<<<<<<< HEAD
 Gamma02=1.
 Gamma12=1.
 Gamma01=1.
@@ -43,17 +44,31 @@ a1 = []
 t = 0.
 h = 0.02
  
+=======
+ro00 = 1
+ro01 = 0
+ro10 = 0
+ro11 = 0
+o = 0.5
+delte = []
+d = 0.1
+I = complex(0,1)
+matricaGustineIm = []
+matricaGustineRe = []
+a = []
+b = []
+c = []
+a1 = []
+t = 0.
+h = 0.02
+>>>>>>> parent of cd9cfef... resava za sistem od 3 nivoa i 2 lasera
 while (t<4):
-    k11 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
-    k21 = -gamma01*ro01 - 1.0*I*(0.5*oc*ro02 - 0.5*op*ro21 - ro01*(dc - dp))
-    k31 = -gamma02*ro02 - 1.0*I*(dp*ro02 + 0.5*oc*ro01 + 0.5*op*ro00 - 0.5*op*ro22)
-    k41 = -gamma10*ro10 - 1.0*I*(-0.5*oc*ro20 + 0.5*op*ro12 + ro10*(dc - dp)) 
-    k51 = -Gamma01*ro11 + Gamma12*ro22 - 1.0*I*(0.5*oc*ro12 - 0.5*oc*ro21)
-    k61 = -gamma12*ro12 - 1.0*I*(dp*ro12 + 0.5*oc*ro11 - 0.5*oc*ro22 + 0.5*op*ro10 + ro12*(dc - dp))
-    k71 = -gamma20*ro20 - 1.0*I*(-dp*ro20 - 0.5*oc*ro10 - 0.5*op*ro00 + 0.5*op*ro22)
-    k81 = -gamma21*ro21 - 1.0*I*(-dp*ro21 - 0.5*oc*ro11 + 0.5*oc*ro22 - 0.5*op*ro01 - ro21*(dc - dp))
-    k91 = -Gamma02*ro22 - Gamma12*ro22 - 1.0*I*(-0.5*oc*ro12 + 0.5*oc*ro21 - 0.5*op*ro02 + 0.5*op*ro20)
+    k11 = ro11 - I*(o*ro01/2. - o*ro10/2.)
+    k21 = -ro01 - I*(-d*ro01 + o*ro00/2. - o*ro11/2.)
+    k31 = -ro10 - I*(d*ro10 - o*ro00/2. + o*ro11/2.)
+    k41 = -ro11 - I*(-o*ro01/2. + o*ro10/2.)
 #    ft2 = t + (h/2.)
+<<<<<<< HEAD
     ro002 = ro[0]+(h/2.)*k11
     ro012 = ro[1]+(h/2.)*k21
     ro022 = ro[2]+(h/2.)*k31
@@ -124,11 +139,52 @@ while (t<4):
     f.append(t)
     
 plt.plot(f,a)
+=======
+    ro002 = ro00+(h/2.)*k11
+    ro012 = ro01+(h/2.)*k21
+    ro102 = ro10+(h/2.)*k31
+    ro112 = ro11+(h/2.)*k41
+    k12 = ro112 - I*(o*ro012/2. - o*ro102/2.)
+    k22 = -ro012 - I*(-d*ro012 + o*ro002/2. - o*ro112/2.)
+    k32 = -ro102 - I*(d*ro102 - o*ro002/2. + o*ro112/2.)
+    k42 = -ro112 - I*(-o*ro012/2. + o*ro102/2.)
+#    ft3 = t + (h/2.)
+    ro003 = ro002+(h/2.)*k12
+    ro013 = ro012+(h/2.)*k22
+    ro103 = ro102+(h/2.)*k32
+    ro113 = ro112+(h/2.)*k42
+    k13 = ro113 - I*(o*ro013/2. - o*ro103/2.)
+    k23 = -ro013 - I*(-d*ro013 + o*ro003/2. - o*ro113/2.)
+    k33 = -ro103 - I*(d*ro103 - o*ro003/2. + o*ro113/2.)
+    k43 = -ro113- I*(-o*ro013/2. + o*ro103/2.)
+#    ft4 = t + (h/2.)
+    ro004 = ro003+(h/2.)*k13
+    ro014 = ro013+(h/2.)*k23
+    ro104 = ro103+(h/2.)*k33
+    ro114= ro113+(h/2.)*k43
+    k14 = ro114 - I*(o*ro014/2. - o*ro104/2.)
+    k24= -ro014- I*(-d*ro014 + o*ro004/2. - o*ro114/2.)
+    k34 = -ro104 - I*(d*ro104 - o*ro004/2. + o*ro114/2.)
+    k44 = -ro114- I*(-o*ro014/2. + o*ro104/2.)
+    t = t + (h/2.)
+    ro00 = ro00 + (h/6.)*(k11+(2.*k12)+(2.*k13)+k14)
+    ro01 = ro01 + (h/6.)*(k21+(2.*k22)+(2.*k23)+k24)
+    ro10 = ro10 + (h/6.)*(k31+(2.*k32)+(2.*k33)+k34)
+    ro11 = ro11 + (h/6.)*(k41+(2.*k42)+(2.*k43)+k44)
+    a.append(ro00.real)
+    c.append(ro01.imag)
+    a1.append(ro01.real)
+    b.append(t)
+
+#plotovanje 2d
+plt.plot(b,a)
+>>>>>>> parent of cd9cfef... resava za sistem od 3 nivoa i 2 lasera
 plt.title("Realni deo")
 plt.xlabel("t")
 plt.ylabel("rho00")
 plt.savefig('ro00re.png')
 plt.show()
+<<<<<<< HEAD
 #plt.plot(b,e)
 #plt.title("Realni deo")
 #plt.xlabel("t")
@@ -157,3 +213,21 @@ plt.show()
 #
 #plt.show()
 #
+=======
+ 
+plt.plot(b,a)
+plt.title("Realni deo")
+plt.xlabel("t")
+plt.ylabel("rho01")
+plt.savefig('ro01re.png')
+plt.show()
+   
+plt.plot(b,c)
+plt.title("Imaginarni deo")
+plt.xlabel("t")
+plt.ylabel("rho01")
+plt.savefig('ro01im.png')
+
+plt.show()
+
+>>>>>>> parent of cd9cfef... resava za sistem od 3 nivoa i 2 lasera

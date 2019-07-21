@@ -43,6 +43,75 @@ Gamma=[[1, 1, 1],[ 1,1,1],[1,1,1]]
 result0 = [[0,0],[0,0]]
 result1 = [[0,0],[0,0]]
 result = [[0,0],[0,0]]
+##ovo je ako zwwlim da nadjem resenje u opstim brojevima koje je dobijeno kada je 
+#d ro/dt = 0
+#for i in range (100):
+#    d = (i-50)/50
+#    print(d)
+#    H = [[0, -h*o/2],[-h*o/2, h*d]]
+#    for i in range(len(H)):
+#       for j in range(len(ro[0])):
+#           for k in range(len(ro)):
+#               result0[i][j] += H[i][k] * ro[k][j]
+#    
+#    for i in range(len(ro)):
+#       for j in range(len(H[0])):
+#           for k in range(len(H)):
+#               result1[i][j] += ro[i][k] * H[k][j]
+#               
+#    for i in range (2):
+#        for j in range (2):
+#            result[i][j]=-I*(result0[i][j]-result1[i][j])/h
+#            if i!=j:
+#                result[i][j]+=-gamma[i][j]*ro[i][j]
+#            else:
+#                if i == 0:
+#                    result[i][j]=result[i][j]+Gamma[0][1]*ro[1][1]
+#                else:
+#                    result[i][j]=result[i][j]-Gamma[0][1]*ro[1][1]
+#                
+##    print(result)    
+#          
+#    for i in range (2):
+#        for j in range (2):
+#            locals()["jna"+str(i)+str(j)] = result[i][j]
+##            print(result[i][j])
+#    jna = ro00+ro11-1
+#    for i in range (2):
+#            for j in range (2):
+#                locals()["jna"+str(i)+str(j)] = result[i][j]
+#    #            print(result[i][j])
+#    jednacina = sympy.solve([jna01,jna10,jna11,jna],[ro00,ro01,ro10,ro11])
+#    brojac.append(d)
+#    imaginarnaGustina1.append(im(jednacina[ro01]))
+#    realnaGustina1.append(re(jednacina[ro01]))
+#    imaginarnaGustina2.append(im(jednacina[ro10]))
+#    realnaGustina2.append(re(jednacina[ro10]))
+#
+#   
+#plt.plot(brojac,realnaGustina1)
+#plt.title("Realni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho01")
+#plt.show()
+#plt.plot(brojac,realnaGustina2)
+#plt.title("Realni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho10")
+#plt.show()
+#plt.plot(brojac,imaginarnaGustina1)
+#plt.title("Imaginarni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho01")
+#plt.show()
+#plt.plot(brojac,imaginarnaGustina2)
+#plt.title("Imaginarni deo")
+#plt.xlabel("delta")
+#plt.ylabel("rho10")
+#plt.show()
+
+#resenje u opstim brojevima koje je dobijeno kada je 
+#d ro/dt = 0
 
 d = sympy.Symbol('d')
 H = [[0, -h*o/2],[-h*o/2, h*d]]
