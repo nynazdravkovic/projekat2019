@@ -34,6 +34,7 @@ eq3 = Eq(Derivative(ro10,t),-ro10 - I*(d*ro10 - o*ro00/2 + o*ro11/2))
 eq4 = Eq(Derivative(ro11,t), -ro11 - I*(-o*ro01/2 + o*ro10/2))
 
 "resenje je sa konstantama C1, C2 i C3"
-soln = dsolve((eq1, eq2, eq3, eq4))
+soln = dsolve((eq1, eq2, eq3, eq4),ics={ro00(0):1, ro01(0):0, ro10(0):0, ro11(0):0})
+display(soln)
 display(soln)
 print(soln)
