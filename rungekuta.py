@@ -38,17 +38,18 @@ dp = 0.
 dc = 0.
 I = complex(0,1)
 
-matricaGustineIm = []
-matricaGustineRe = []
+#matricaGustineIm = []
+#matricaGustineRe = []
 a = []
 b = []
-c = []
-e = []
+matricaGustineIm = np.zeros((9,401),dtype=np.complex128)
+matricaGustineRe = np.zeros((9,401),dtype=np.complex128)
 f = []
 a1 = []
 t = 0.
 h = 0.02
-
+imaginarno = []
+realno = []
 f1 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
 f2 = -gamma01*ro01 - 1.0*I*(0.5*oc*ro02 - 0.5*op*ro21 - ro01*(dc - dp))
 f3 = -gamma02*ro02 - 1.0*I*(dp*ro02 + 0.5*oc*ro01 + 0.5*op*ro00 - 0.5*op*ro22)
@@ -58,7 +59,7 @@ f6 = -gamma12*ro12 - 1.0*I*(dp*ro12 + 0.5*oc*ro11 - 0.5*oc*ro22 + 0.5*op*ro10 + 
 f7 = -gamma20*ro20 - 1.0*I*(-dp*ro20 - 0.5*oc*ro10 - 0.5*op*ro00 + 0.5*op*ro22)
 f8 = -gamma21*ro21 - 1.0*I*(-dp*ro21 - 0.5*oc*ro11 + 0.5*oc*ro22 - 0.5*op*ro01 - ro21*(dc - dp))
 f9 = -Gamma02*ro22 - Gamma12*ro22 - 1.0*I*(-0.5*oc*ro12 + 0.5*oc*ro21 - 0.5*op*ro02 + 0.5*op*ro20)
-
+ro = [ro00,ro01,ro02,ro10,ro11,ro12,ro20,ro21,ro22]
  
 while (t<4):
     k11 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
@@ -71,15 +72,15 @@ while (t<4):
     k81 = -gamma21*ro21 - 1.0*I*(-dp*ro21 - 0.5*oc*ro11 + 0.5*oc*ro22 - 0.5*op*ro01 - ro21*(dc - dp))
     k91 = -Gamma02*ro22 - Gamma12*ro22 - 1.0*I*(-0.5*oc*ro12 + 0.5*oc*ro21 - 0.5*op*ro02 + 0.5*op*ro20)
 #    ft2 = t + (h/2.)
-    ro002 = ro00+(h/2.)*k11
-    ro012 = ro01+(h/2.)*k21
-    ro022 = ro02+(h/2.)*k31
-    ro102 = ro10+(h/2.)*k41
-    ro112 = ro11+(h/2.)*k51
-    ro122 = ro12+(h/2.)*k61
-    ro202 = ro20+(h/2.)*k71
-    ro212 = ro21+(h/2.)*k81
-    ro222 = ro22+(h/2.)*k91
+    ro002 = ro[0]+(h/2.)*k11
+    ro012 = ro[1]+(h/2.)*k21
+    ro022 = ro[2]+(h/2.)*k31
+    ro102 = ro[3]+(h/2.)*k41
+    ro112 = ro[4]+(h/2.)*k51
+    ro122 = ro[5]+(h/2.)*k61
+    ro202 = ro[6]+(h/2.)*k71
+    ro212 = ro[7]+(h/2.)*k81
+    ro222 = ro[8]+(h/2.)*k91
     k12 = Gamma01*ro112 + Gamma02*ro222 - 1.0*I*(0.5*op*ro022 - 0.5*op*ro202)
     k22 = -gamma01*ro012 - 1.0*I*(0.5*oc*ro022 - 0.5*op*ro212 - ro012*(dc - dp))
     k32 = -gamma02*ro022 - 1.0*I*(dp*ro022 + 0.5*oc*ro012 + 0.5*op*ro002 - 0.5*op*ro222)
@@ -90,7 +91,7 @@ while (t<4):
     k82 = -gamma21*ro212 - 1.0*I*(-dp*ro212 - 0.5*oc*ro112 + 0.5*oc*ro222 - 0.5*op*ro012 - ro212*(dc - dp))
     k92 = -Gamma02*ro222 - Gamma12*ro222 - 1.0*I*(-0.5*oc*ro122 + 0.5*oc*ro212 - 0.5*op*ro022 + 0.5*op*ro202)
 #    ft3 = t + (h/2.)
-    ro003 = ro00+(h/2.)*k12
+    ro003 = ro[0]+(h/2.)*k12
     ro013 = ro01+(h/2.)*k22
     ro023 = ro02+(h/2.)*k32
     ro103 = ro10+(h/2.)*k42
@@ -109,7 +110,7 @@ while (t<4):
     k83 = -gamma21*ro213 - 1.0*I*(-dp*ro213 - 0.5*oc*ro113 + 0.5*oc*ro223 - 0.5*op*ro013 - ro213*(dc - dp))
     k93 = -Gamma02*ro223 - Gamma12*ro223 - 1.0*I*(-0.5*oc*ro123 + 0.5*oc*ro213 - 0.5*op*ro023 + 0.5*op*ro203)
 #    ft4 = t + (h/2.)
-    ro004 = ro00+(h/2.)*k13
+    ro004 = ro[0]+(h/2.)*k13
     ro014 = ro01+(h/2.)*k23
     ro024 = ro02+(h/2.)*k33
     ro104 = ro10+(h/2.)*k43
@@ -136,47 +137,48 @@ while (t<4):
     ro12 = ro12 + (h/6.)*(k61+(2.*k62)+(2.*k63)+k64)
     ro20 = ro20 + (h/6.)*(k71+(2.*k72)+(2.*k73)+k74)
     ro21 = ro21 + (h/6.)*(k81+(2.*k82)+(2.*k83)+k84)
-    ro22 = ro22 + (h/6.)*(k91+(2.*k92)+(2.*k93)+k94)
-    a.append(ro00.real)
-    e.append(ro11.real)
-    f.append(ro22.real)
-
-    c.append(ro12.imag)
-    a1.append(ro12.real)
-    b.append(t)
-
+    ro22 = ro22 + (h/6.)*(k91+(2.*k92)+(2.*k93)+k94)    
+    a.append(ro00.imag)
+    f.append(t)
+#for i in range(401):
+#    for j in range(9):
+#        matricaGustineRe[j][i] = a[i][j].imag
+#        matricaGustineIm[j][i] = a[i][j].real
+    
+#e = np.transpose(e)
+#print(c[0])
 #plotovanje 2d
-plt.plot(b,a)
+plt.plot(f,a)
 plt.title("Realni deo")
 plt.xlabel("t")
 plt.ylabel("rho00")
 plt.savefig('ro00re.png')
 plt.show()
-plt.plot(b,e)
-plt.title("Realni deo")
-plt.xlabel("t")
-plt.ylabel("rho11")
-plt.savefig('ro00re.png')
-plt.show()
-plt.plot(b,f)
-plt.title("Realni deo")
-plt.xlabel("t")
-plt.ylabel("rho22")
-plt.savefig('ro00re.png')
-plt.show()
- 
-plt.plot(b,a)
-plt.title("Realni deo")
-plt.xlabel("t")
-plt.ylabel("rho01")
-plt.savefig('ro01re.png')
-plt.show()
-   
-plt.plot(b,c)
-plt.title("Imaginarni deo")
-plt.xlabel("t")
-plt.ylabel("rho01")
-plt.savefig('ro01im.png')
-
-plt.show()
-
+#plt.plot(b,e)
+#plt.title("Realni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho11")
+#plt.savefig('ro11re.png')
+#plt.show()
+#plt.plot(b,f)
+#plt.title("Realni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho22")
+#plt.savefig('ro22re.png')
+#plt.show()
+# 
+#plt.plot(b,a)
+#plt.title("Realni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho21")
+#plt.savefig('ro21re.png')
+#plt.show()
+#   
+#plt.plot(b,c)
+#plt.title("Imaginarni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho21")
+#plt.savefig('ro21im.png')
+#
+#plt.show()
+#
