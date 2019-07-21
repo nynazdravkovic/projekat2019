@@ -11,30 +11,33 @@ Created on Sun Jul 21 01:08:44 2019
 
 @author: nina
 """
-
-from IPython.display import display
+import numpy as np
 import sympy
-from sympy import Function, sqrt, dsolve, Eq, Derivative
+from sympy import *
+from sympy.abc import *
+from sympy.plotting import plot
+#from scipy import integrate
+#import matplotlib.pyplot as plt
+from sympy import init_printing
+init_printing()
+from sympy import Function, Indexed, Tuple, sqrt, dsolve, solve, Eq, Derivative, sin, cos, symbols
+from sympy.abc import h, t, o, d, i
 from sympy import solve, Poly, Eq, Function, exp
+"zbog biblioteke sympy.abc rho00=x rho01=y rho10=z i rho11=w"
+#ro11 = 1 - ro00
+#w = (1 -x)
+from sympy.abc import x, y, z, w
+#f = Function('f')
 from sympy import Indexed, IndexedBase, Tuple, sqrt
+from IPython.display import display
+init_printing()
 
-
-t = sympy.Symbol('t')
-d=0
-o=0.5
-ro00=Function('ro00')(t)
-ro01=Function('ro01')(t)
-ro10=Function('ro10')(t)
-ro11=Function('ro11')(t)
-I = sympy.Symbol('I')
-
-eq1 = Eq(Derivative(ro00,t), ro11 - I*(o*ro01/2 - o*ro10/2))
-eq2 = Eq(Derivative(ro01,t), -ro01 - I*(-d*ro01 + o*ro00/2 - o*ro11/2))
-eq3 = Eq(Derivative(ro10,t),-ro10 - I*(d*ro10 - o*ro00/2 + o*ro11/2))
-eq4 = Eq(Derivative(ro11,t), -ro11 - I*(-o*ro01/2 + o*ro10/2))
-
-"resenje je sa konstantama C1, C2 i C3"
-soln = dsolve((eq1, eq2, eq3, eq4),ics={ro00(0):1, ro01(0):0, ro10(0):0, ro11(0):0})
+h, t, o, d, i= symbols("h t o d i")
+x, y, z, w = symbols("x y z w", cls = Function, Function = True)
+eq1 = Eq(Derivative(x(t),t), x(t)-i*(o*y(t)/2 - o*z(t)/2))
+eq2 = Eq(Derivative(y(t),t), -y(t)-i*(-d*y(t) + o*x(t)/2 - o*(x(t)-1)/2))
+eq3 = Eq(Derivative(z(t),t), -z(t)-i*(d*z(t) - o*x(t)/2 + o*(x(t)-1)/2))
+#eq4 = Eq(Derivative(w(t),t),-w(t)-i*(-o*y(t)/2 + o*z(t)/2))
+#constants = solve((soln[0].subs(t,0).subs(y(0),0), soln[0].subs(t,0).subs(z(0),0), soln[0].subs(t,0).subs(w(0),0)),{C1,C2,C3})
+soln = dsolve((eq1, eq2, eq3),ics={x(0):1, y(0):0, z(0):0})
 display(soln)
-display(soln)
-print(soln)
