@@ -39,6 +39,7 @@ for i in range (100):
     ro01_im.append(rho01.imag)
     ro01_re.append(rho01.real)
 
+
         
 plt.plot(delta,ro01_im)
 plt.title("Imaginarni deo")
