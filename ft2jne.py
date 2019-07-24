@@ -9,13 +9,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 import scipy.integrate as integrate
-import sympy
-from sympy import *
-import scipy.integrate as integrate
-from sympy.solvers.solvers import solve_linear_system
 from scipy.fftpack import fft, ifft
 
 #za resavanje simbolicki 
+#import sympy
+#from sympy import *
+#from sympy.solvers.solvers import solve_linear_system
 #dc=sympy.Symbol('dc')
 #dp=sympy.Symbol('dp')
 #oc=sympy.Symbol('oc')
@@ -42,8 +41,8 @@ distance = []
 time = []
 E = np.empty((100,100))
 epsilon = 1
-jednacina = sympy.solve([I*w*ro01-I*0.5*oc*ro02+I*0.5*op+ro01*(-gamma01+I*(dc-dp)),I*w*ro02-I*0.5*oc*ro01-I*0.5*op+ro02*(-gamma02 - I*dp)],[ro01,ro02])
-print(jednacina[ro01])
+#jednacina = sympy.solve([I*w*ro01-I*0.5*oc*ro02+I*0.5*op+ro01*(-gamma01+I*(dc-dp)),I*w*ro02-I*0.5*oc*ro01-I*0.5*op+ro02*(-gamma02 - I*dp)],[ro01,ro02])
+#print(jednacina[ro01])
 def f (w):
     sistem = [[I*w+(-gamma01+I*(dc-dp)),-I*0.5*oc],[-I*0.5*oc,I*w+(-gamma02 - I*dp)]]
     resenje = [-I*0.5*op,I*0.5*op]
@@ -52,7 +51,7 @@ def f (w):
     jednacina2 = jednacina[1]/(I*op)
     return(jednacina2)
 print()
-
+#funkcija koja racuna povrsinu ispod funkcije za odvojei imaginarni i realni deo
 def integral(func,a,b):
     def realnaFja(x):
         return scipy.real(func(x))
@@ -63,35 +62,49 @@ def integral(func,a,b):
     return (integralRe[0]+I*integralIm[0],integralRe[1]+I*integralIm[1])
 
 #vraca mi niz E(0,t) koji je prosao krooz fft
+#def gaus(time,W):
+#    niz = []
+#    for i in range (time):
+#        t = i
+#        a = epsilon*np.exp(-2*np.log(t**2/W**2))    
+#        niz.append(a)
+#    a = fft(niz)
+#    return(a)
+##Ep0 je niz koji se odmah racuna, to je gaus koji je prethodni prosao kroz fft 
+#def ispodIntegrala(w, Ep0,t, z):
+#    return(Ep0[t]*np.exp(-I*w*(t-z/c)-f(w)*z))
+# def resavanje(distance,time,W):
+#    matricaResenja = np.zeros((time,distance),dtype = 'complex')
+#    for  i in range(time):
+#        t = i
+#        Ep0 = gaus(time,W)
+#        for j in range(distance):
+#            z = j
+#            Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,z),0,np.inf)
+#            matricaResenja[i][j] = Ep[0]
+#    return(matricaResenja)
+   
+
 def gaus(time,W):
-    niz = []
-    for i in range (time):
-        t = i
-        a = epsilon*np.exp(-2*np.log(t**2/W**2))    
-        niz.append(a)
-    a = fft(niz)
+    a = epsilon*np.exp(-2*np.log(time**2/W**2))    
     return(a)
-#ep0 je niz, 
-def molimte(w, Ep0,t, z):
-    return(Ep0[t]*np.exp(-I*w*(t-z/c)-f(w)*z))
-    
+#Ep0 je niz koji se odmah racuna, to je gaus koji je prethodni prosao kroz fft 
+def ispodIntegrala(w,E0,t,z):
+    return(E0*np.exp(-I*w*(t-z/c)-f(w)*z))
 def resavanje(distance,time,W):
-    matricaResenja = np.zeros((time,distance),dtype = 'complex')
-    for  i in range(time):
-        t = i
-        Ep0 = gaus(time,W)
-        for j in range(distance):
-            z = j
-            Ep = integral(lambda w: molimte(w,Ep0,t,z),-np.inf,np.inf)
-            matricaResenja[i][j] = Ep[0]
-    return(matricaResenja)
-    
+   matricaResenja = np.zeros((time,distance),dtype = 'complex')
+   for  i in range(time):
+       t = i
+       Ep0 = gaus(time,W)
+       for j in range(distance):
+           z = j
+           Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,z),-np.inf,np.inf)
+           matricaResenja[i][j] = Ep[0]
+   return(matricaResenja)
 b = []
 polje = resavanje(n,n,1)
-print(polje)
-#plt.plot(time,b)
-#td = np.meshgrid(time,distance)
+np.savetxt('Ep.csv',polje, delimiter=',')
+T,D = np.meshgrid(time,distance)
 
-#print(Ep)
 
 
