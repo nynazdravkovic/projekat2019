@@ -47,17 +47,26 @@ f = []
 a1 = []
 t = 0.
 h = 0.02
-
-f1 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
-f2 = -gamma01*ro01 - 1.0*I*(0.5*oc*ro02 - 0.5*op*ro21 - ro01*(dc - dp))
-f3 = -gamma02*ro02 - 1.0*I*(dp*ro02 + 0.5*oc*ro01 + 0.5*op*ro00 - 0.5*op*ro22)
-f4 = -gamma10*ro10 - 1.0*I*(-0.5*oc*ro20 + 0.5*op*ro12 + ro10*(dc - dp))
-f5 = -Gamma01*ro11 + Gamma12*ro22 - 1.0*I*(0.5*oc*ro12 - 0.5*oc*ro21)
-f6 = -gamma12*ro12 - 1.0*I*(dp*ro12 + 0.5*oc*ro11 - 0.5*oc*ro22 + 0.5*op*ro10 + ro12*(dc - dp))
-f7 = -gamma20*ro20 - 1.0*I*(-dp*ro20 - 0.5*oc*ro10 - 0.5*op*ro00 + 0.5*op*ro22)
-f8 = -gamma21*ro21 - 1.0*I*(-dp*ro21 - 0.5*oc*ro11 + 0.5*oc*ro22 - 0.5*op*ro01 - ro21*(dc - dp))
-f9 = -Gamma02*ro22 - Gamma12*ro22 - 1.0*I*(-0.5*oc*ro12 + 0.5*oc*ro21 - 0.5*op*ro02 + 0.5*op*ro20)
-
+#def rk():
+#    k11 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
+#    k21 = -gamma01*ro01 - 1.0*I*(0.5*oc*ro02 - 0.5*op*ro21 - ro01*(dc - dp))
+#    k31 = -gamma02*ro02 - 1.0*I*(dp*ro02 + 0.5*oc*ro01 + 0.5*op*ro00 - 0.5*op*ro22)
+#    k41 = -gamma10*ro10 - 1.0*I*(-0.5*oc*ro20 + 0.5*op*ro12 + ro10*(dc - dp)) 
+#    k51 = -Gamma01*ro11 + Gamma12*ro22 - 1.0*I*(0.5*oc*ro12 - 0.5*oc*ro21)
+#    k61 = -gamma12*ro12 - 1.0*I*(dp*ro12 + 0.5*oc*ro11 - 0.5*oc*ro22 + 0.5*op*ro10 + ro12*(dc - dp))
+#    k71 = -gamma20*ro20 - 1.0*I*(-dp*ro20 - 0.5*oc*ro10 - 0.5*op*ro00 + 0.5*op*ro22)
+#    k81 = -gamma21*ro21 - 1.0*I*(-dp*ro21 - 0.5*oc*ro11 + 0.5*oc*ro22 - 0.5*op*ro01 - ro21*(dc - dp))
+#    k91 = -Gamma02*ro22 - Gamma12*ro22 - 1.0*I*(-0.5*oc*ro12 + 0.5*oc*ro21 - 0.5*op*ro02 + 0.5*op*ro20)
+##    ft2 = t + (h/2.)
+#    ro002 = ro00+(h/2.)*k11
+#    ro012 = ro01+(h/2.)*k21
+#    ro022 = ro02+(h/2.)*k31
+#    ro102 = ro10+(h/2.)*k41
+#    ro112 = ro11+(h/2.)*k51
+#    ro122 = ro12+(h/2.)*k61
+#    ro202 = ro20+(h/2.)*k71
+#    ro212 = ro21+(h/2.)*k81
+#    ro222 = ro22+(h/2.)*k91
  
 while (t<4):
     k11 = Gamma01*ro11 + Gamma02*ro22 - 1.0*I*(0.5*op*ro02 - 0.5*op*ro20)
@@ -137,44 +146,49 @@ while (t<4):
     ro21 = ro21 + (h/6.)*(k81+(2.*k82)+(2.*k83)+k84)
     ro22 = ro22 + (h/6.)*(k91+(2.*k92)+(2.*k93)+k94)
     a.append(ro00.real)
-    e.append(ro11.real)
-    f.append(ro22.real)
-
-    c.append(ro12.imag)
-    a1.append(ro12.real)
+    e.append(ro20.imag)
+    f.append(ro20.real)
+    c.append(ro02.imag)
+    a1.append(ro01.real)
     b.append(t)
-
+#np.savetxt("ro12re.csv", a1, delimiter=",")
+#np.savetxt("ro12im.csv", c, delimiter=",")
+print(c[400])
+red = np.full(401,-0.23529411764705882)
+red1 = np.full(401,-0.058823529411764705)
 #plotovanje 2d
-plt.plot(b,a)
+#plt.plot(b,a)
+#plt.title("Realni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho00")
+#plt.savefig('ro00re.png')
+#plt.show()
+#plt.plot(b,a1)
+#plt.title("Imaginarni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho20")
+#plt.savefig('ro00re.png')
+#plt.show()
+plt.plot(b,c)
+plt.plot(b,red)
 plt.title("Realni deo")
 plt.xlabel("t")
-plt.ylabel("rho00")
-plt.savefig('ro00re.png')
-plt.show()
-plt.plot(b,e)
-plt.title("Realni deo")
-plt.xlabel("t")
-plt.ylabel("rho11")
-plt.savefig('ro00re.png')
-plt.show()
-plt.plot(b,f)
-plt.title("Realni deo")
-plt.xlabel("t")
-plt.ylabel("rho22")
-plt.savefig('ro00re.png')
+plt.ylabel("rho20")
+#plt.savefig('ro00re.png')
 plt.show()
  
-plt.plot(b,a)
+plt.plot(b,a1)
+plt.plot(b,red1)
 plt.title("Realni deo")
 plt.xlabel("t")
 plt.ylabel("rho01")
-plt.savefig('ro01re.png')
+#plt.savefig('ro01re.png')
 plt.show()
-   
-plt.plot(b,c)
-plt.title("Imaginarni deo")
-plt.xlabel("t")
-plt.ylabel("rho01")
-plt.savefig('ro01im.png')
+#   
+#plt.plot(b,c)
+#plt.title("Imaginarni deo")
+#plt.xlabel("t")
+#plt.ylabel("rho01")
+#plt.savefig('ro01im.png')
 
 plt.show()
