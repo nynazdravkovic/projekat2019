@@ -12,7 +12,6 @@ from sympy import *
 from sympy.solvers.solvers import solve_linear_system
 import scipy.sparse.linalg
 import scipy.sparse
-import matplotlib.pyplot as plt
 #resenje u brojevima
 #dc=0
 #op=0.1
