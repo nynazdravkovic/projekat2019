@@ -30,6 +30,7 @@ dc=0.
 dp=0.
 oc=0.5
 op=0.5
+W = 0.1
 gamma01=1.
 gamma02=1.
 #w = 1.
@@ -37,8 +38,8 @@ I = complex(0,1)
 n=100
 omega = np.linspace(0,100,100)
 c=1
-distance = []
-time = []
+udaljenost = []
+vreme = []
 E = np.empty((100,100))
 epsilon = 1
 #jednacina = sympy.solve([I*w*ro01-I*0.5*oc*ro02+I*0.5*op+ro01*(-gamma01+I*(dc-dp)),I*w*ro02-I*0.5*oc*ro01-I*0.5*op+ro02*(-gamma02 - I*dp)],[ro01,ro02])
@@ -61,50 +62,56 @@ def integral(func,a,b):
     integralIm = integrate.quad(imaginarnaFja,a,b)
     return (integralRe[0]+I*integralIm[0],integralRe[1]+I*integralIm[1])
 
-#vraca mi niz E(0,t) koji je prosao krooz fft
-#def gaus(time,W):
-#    niz = []
-#    for i in range (time):
-#        t = i
-#        a = epsilon*np.exp(-2*np.log(t**2/W**2))    
-#        niz.append(a)
-#    a = fft(niz)
-#    return(a)
-##Ep0 je niz koji se odmah racuna, to je gaus koji je prethodni prosao kroz fft 
-#def ispodIntegrala(w, Ep0,t, z):
-#    return(Ep0[t]*np.exp(-I*w*(t-z/c)-f(w)*z))
-# def resavanje(distance,time,W):
-#    matricaResenja = np.zeros((time,distance),dtype = 'complex')
-#    for  i in range(time):
-#        t = i
-#        Ep0 = gaus(time,W)
-#        for j in range(distance):
-#            z = j
-#            Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,z),0,np.inf)
-#            matricaResenja[i][j] = Ep[0]
-#    return(matricaResenja)
-   
-
+#vraca mi niz E(0,t) koji je prosao kroz fft sigurno radi
 def gaus(time,W):
-    a = epsilon*np.exp(-2*np.log(time**2/W**2))    
+    niz = []
+    for i in range (time):
+        t = i
+        a = epsilon*np.exp(-2*np.log(2)*(t**2/W**2))    
+        niz.append(a)
+    a = fft(niz)
     return(a)
 #Ep0 je niz koji se odmah racuna, to je gaus koji je prethodni prosao kroz fft 
-def ispodIntegrala(w,E0,t,z):
-    return(E0*np.exp(-I*w*(t-z/c)-f(w)*z))
+def ispodIntegrala(w, Ep0,t, z):
+    return(Ep0[t]*np.exp(-I*w*(t-z/c)-np.conj(f(w))*z))
 def resavanje(distance,time,W):
-   matricaResenja = np.zeros((time,distance),dtype = 'complex')
-   for  i in range(time):
-       t = i
-       Ep0 = gaus(time,W)
-       for j in range(distance):
-           z = j
-           Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,z),-np.inf,np.inf)
-           matricaResenja[i][j] = Ep[0]
-   return(matricaResenja)
-b = []
-polje = resavanje(n,n,1)
-np.savetxt('Ep.csv',polje, delimiter=',')
-T,D = np.meshgrid(time,distance)
+    matricaResenja = np.zeros((time,distance),dtype = 'complex')
+    for  i in range(time):
+        t = i
+        Ep0 = gaus(time,W)
+        for j in range(distance):
+            z = j
+            Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,z),0,np.inf)
+            matricaResenja[i][j] = Ep[0]
+    return(matricaResenja)
+   
 
+#def gaus(time,W):
+#    a = epsilon*np.exp(-2*np.log(time**2/W**2))    
+#    return(a)
+##Ep0 je niz koji se odmah racuna, to je gaus koji je prethodni prosao kroz fft 
+#def ispodIntegrala(w,E0,t,z):
+#    return(E0*np.exp(-I*w*(t-z/c)-np.conj(f(w))*z))
+#def resavanje(distance,time,W):
+#   matricaResenja = np.zeros((time,distance),dtype = 'complex')
+#   matricaGreski = np.zeros((time,distance),dtype = 'complex')
+#   for  i in range(time):
+#       t = i
+#       vreme.append(t)
+#       udaljenost.append(t)
+#       Ep0 = gaus(time,W)
+#       for j in range(distance):
+#           z = j
+#           Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,z),-np.inf,np.inf)
+#           matricaResenja[i][j] = Ep[0]
+#           matricaGreski[i][j] = Ep[1]
+#   return(matricaResenja,matricaGreski)
+
+polje = resavanje(n,n,W)
+poljeGreske = resavanje(n,n,W)
+#np.savetxt('Ep1.csv',polje, delimiter=',')
+T,D = np.meshgrid(vreme,udaljenost)
+plt.contourf(polje)
+plt.show()
 
 
