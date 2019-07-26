@@ -18,12 +18,11 @@ op=0.5
 W = 1
 gamma01=1.
 gamma02=1.
-
 I = complex(0,1)
 n=100
 c=1
-udaljenost = np.linspace(0,10,n,dtype = 'int16')
-vreme = np.linspace(-5,5,n,dtype = 'int16')
+udaljenost = np.linspace(0,5,n)
+vreme = np.linspace(-5,5,n)
 E = np.empty((n,n))
 epsilon = 1
 
@@ -63,22 +62,29 @@ def ispodIntegrala(w, Ep0,t,k, z):
     return(Ep0[k]*np.exp(-I*w*(t-z/c)-f(w)*z))
     
 def resavanje(distance,time,W):
-    matricaResenja = np.zeros((len(time),len(distance)),dtype = 'complex')
+    matricaResenjaRe = np.zeros((len(time),len(distance)))
+    matricaResenjaIm = np.zeros((len(time),len(distance)))
     Ep0 = gaus(len(time),W)
     for  i in range(len(time)):
         t = time[i]
         for j in range(len(distance)):
             z = distance[j]
             Ep = integral(lambda w: ispodIntegrala(w,Ep0,t,i,z),-np.inf,np.inf)
-            matricaResenja[i][j] = 1/(2*np.pi)*Ep[0]
-    return(matricaResenja)
+            matricaResenjaRe[i][j] = 1/(2*np.pi)*Ep[0].real
+            matricaResenjaIm[i][j] = 1/(2*np.pi)*Ep[0].imag
+    return(matricaResenjaRe,matricaResenjaIm)
    
-polje = resavanje(vreme,udaljenost,W)
+poljeRe = resavanje(vreme,udaljenost,W)[0]
+poljeIm = resavanje(vreme,udaljenost,W)[1]
 #np.savetxt('Ep1.csv',polje, delimiter=',')
 
 T = np.meshgrid(vreme,udaljenost)
-plt.contourf(T[0],T[1],polje)
+plt.contourf(T[0],T[1],poljeRe)
 plt.colorbar()
 plt.show()
+plt.contourf(T[0],T[1],poljeIm)
+plt.colorbar()
+plt.show()
+
 #
 
