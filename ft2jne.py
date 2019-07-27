@@ -13,13 +13,13 @@ from scipy.fftpack import fft, ifft
 
 dc=0.1
 dp=0.1
-oc=0.5
+oc=1.
 op=0.5
-W = 1
+W = 0.01
 gamma01=1.
 gamma02=1.
 I = complex(0,1)
-n=20
+n=10
 c=1
 udaljenost = np.linspace(0,5,n)
 vreme = np.linspace(0,5,n)
@@ -75,16 +75,16 @@ poljeRe = resavanje(udaljenost,vreme,W)[0]
 poljeIm =  resavanje(udaljenost,vreme,W)[1]
 poljemoduo=resavanje(udaljenost,vreme,W)[2]
 #np.savetxt('Ep1.csv',polje, delimiter=',')
-
+N=100
 T = np.meshgrid(vreme,udaljenost)
-plt.contourf(T[1],T[0],poljeRe)
+#plt.contourf(T[1],T[0],poljeRe)
+plt.contourf(T[1], T[0], poljeRe, N, cmap="viridis")
 plt.colorbar()
 plt.show()
-plt.contourf(T[1],T[0],poljeIm)
+plt.contourf(T[1], T[0], poljeIm, N, cmap="viridis")
 plt.colorbar()
 plt.show()
-T = np.meshgrid(vreme,udaljenost)
-plt.contourf(T[1],T[0],poljemoduo)
+plt.contourf(T[1], T[0], poljemoduo, N, cmap="viridis")
 plt.colorbar()
 plt.show()
 #
