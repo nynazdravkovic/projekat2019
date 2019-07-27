@@ -35,6 +35,11 @@ op = 0.5
 oc = 0.5
 dp = 0.
 dc = 0.
+oc1 = 0.1
+oc2 = 0.1
+dc1 = 0.
+dc2 = 0.
+
 I = complex(0,1)
 pocetniUslovi = [1.,0.,0.,0.,0.,0.,0.,0.,0.]
 matricaGustineIm = []
@@ -43,17 +48,32 @@ t = 0.
 h = 0.02
 ro00re = []
 time = []
-def mnozenjeK(ro):
-    k1 = Gamma01*ro[4]+ Gamma02*ro[8] - 1.0*I*(0.5*op*ro[2] - 0.5*op*ro[6])
-    k2 = -gamma01*ro[1] - 1.0*I*(0.5*oc*ro[2] - 0.5*op*ro[7] - ro[1]*(dc - dp))
-    k3 = -gamma02*ro[2] - 1.0*I*(dp*ro[2] + 0.5*oc*ro[1] + 0.5*op*ro[0] - 0.5*op*ro[8])
-    k4 = -gamma10*ro[3] - 1.0*I*(-0.5*oc*ro[6] + 0.5*op*ro[5] + ro[3]*(dc - dp)) 
-    k5 = -Gamma01*ro[4] + Gamma12*ro[8] - 1.0*I*(0.5*oc*ro[5] - 0.5*oc*ro[7])
-    k6= -gamma12*ro[5] - 1.0*I*(dp*ro[5] + 0.5*oc*ro[4] - 0.5*oc*ro[8] + 0.5*op*ro[3] + ro[5]*(dc - dp))
-    k7 = -gamma20*ro[6] - 1.0*I*(-dp*ro[6] - 0.5*oc*ro[3] - 0.5*op*ro[0] + 0.5*op*ro[8])
-    k8 = -gamma21*ro[7] - 1.0*I*(-dp*ro[7] - 0.5*oc*ro[4] + 0.5*oc*ro[8] - 0.5*op*ro[5] - ro[7]*(dc - dp))
-    k9 = -Gamma02*ro[8] - Gamma12*ro[8] - 1.0*I*(-0.5*oc*ro[5] + 0.5*oc*ro[7] - 0.5*op*ro[2] + 0.5*op*ro[6])
-    return(k1,k2,k3,k4,k5,k6,k7,k8,k9) 
+#ako se koristi ova funkcija koriste se master jednacine za sistem sa 3 nivoa 
+# i 3lasera
+#def mnozenjeK(ro):
+#    k1 = Gamma01*ro[4]+ Gamma02*ro[8] - 1.0*I*(0.5*op*ro[2] - 0.5*op*ro[6])
+#    k2 = -gamma01*ro[1] - 1.0*I*(0.5*oc*ro[2] - 0.5*op*ro[7] - ro[1]*(dc - dp))
+#    k3 = -gamma02*ro[2] - 1.0*I*(dp*ro[2] + 0.5*oc*ro[1] + 0.5*op*ro[0] - 0.5*op*ro[8])
+#    k4 = -gamma10*ro[3] - 1.0*I*(-0.5*oc*ro[6] + 0.5*op*ro[5] + ro[3]*(dc - dp)) 
+#    k5 = -Gamma01*ro[4] + Gamma12*ro[8] - 1.0*I*(0.5*oc*ro[5] - 0.5*oc*ro[7])
+#    k6= -gamma12*ro[5] - 1.0*I*(dp*ro[5] + 0.5*oc*ro[4] - 0.5*oc*ro[8] + 0.5*op*ro[3] + ro[5]*(dc - dp))
+#    k7 = -gamma20*ro[6] - 1.0*I*(-dp*ro[6] - 0.5*oc*ro[3] - 0.5*op*ro[0] + 0.5*op*ro[8])
+#    k8 = -gamma21*ro[7] - 1.0*I*(-dp*ro[7] - 0.5*oc*ro[4] + 0.5*oc*ro[8] - 0.5*op*ro[5] - ro[7]*(dc - dp))
+#    k9 = -Gamma02*ro[8] - Gamma12*ro[8] - 1.0*I*(-0.5*oc*ro[5] + 0.5*oc*ro[7] - 0.5*op*ro[2] + 0.5*op*ro[6])
+#    return(k1,k2,k3,k4,k5,k6,k7,k8,k9)
+#ako se koristi ova funkcija koriste se master jednacine za sistem sa 3 nivao i 
+# 3 lasera 
+def mnozenjeK(ro):        
+    f1 = Gamma01*ro[4] + Gamma02*ro[8] - 1.0*I*(0.5*oc1*ro[1] - 0.5*oc1*ro[3])
+    f2 = -gamma01*ro[1] - 1.0*I*(-dc1*ro[1] + 0.5*oc1*ro[0] - 0.5*oc1*ro[4] + 0.5*oc2*ro[2])
+    f3 = -gamma02*ro[2] - 1.0*I*(dp*ro[2] - 0.5*oc1*ro[5] + 0.5*oc2*ro[1])
+    f4 = -gamma10*ro[3] - 1.0*I*(dc1*ro[3] - 0.5*oc1*ro[0] + 0.5*oc1*ro[4] - 0.5*oc2*ro[6])
+    f5 = -Gamma01*ro[4] + Gamma12*ro[8] - 1.0*I*(-0.5*oc1*ro[1] + 0.5*oc1*ro[3] + 0.5*oc2*ro[5] - 0.5*oc2*ro[7])
+    f6 = -gamma12*ro[5] - 1.0*I*(dc1*ro[6] + dp*ro[5] - 0.5*oc1*ro[2] + 0.5*oc2*ro[4] - 0.5*oc2*ro[8])
+    f7 = -gamma20*ro[6] - 1.0*I*(-dp*ro[6] + 0.5*oc1*ro[7] - 0.5*oc2*ro[3])
+    f8 = -gamma21*ro[7] - 1.0*I*(-dc1*ro[7] - dp*ro[7] + 0.5*oc1*ro[6] - 0.5*oc2*ro[4] + 0.5*oc2*ro[8])
+    f9 = -Gamma02*ro[2] - Gamma12*ro[8] - 1.0*I*(-0.5*oc2*ro[5] + 0.5*oc2*ro[7])
+    return(f1,f2,f3,f4,f5,f6,f7,f8,f9)
 def dodavanjeRo(k,ro):
     ro00 = ro[0]+(h/2.)+k[0]
     ro01 = ro[1]+(h/2.)+k[1]
