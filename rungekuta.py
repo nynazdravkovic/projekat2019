@@ -65,6 +65,11 @@ def dodavanjeRo(k,ro):
     ro21 = ro[7]+(h/2.)+k[7]
     ro22 = ro[8]+(h/2.)+k[8]
     return(ro00,ro01,ro02,ro10,ro11,ro12,ro20,ro21,ro22)
+rho11 = []
+rho22 = []
+rho00 = []
+rho02re = []
+rho02im = []
 while (t<4):
     K1 = mnozenjeK(pocetniUslovi)
     RO1 = dodavanjeRo(K1,pocetniUslovi)
@@ -77,7 +82,22 @@ while (t<4):
     for j in range(9):
         pocetniUslovi[j] += (h/6.)*(K1[j]+(2.*K2[j])+(2.*K3[j])+K4[j])
     time.append(t)  
-    ro00re.append(pocetniUslovi[0].real)
-    
-plt.plot(time,ro00re)
+    rho00.append(pocetniUslovi[0].real)
+    rho11.append(pocetniUslovi[4].real)
+    rho22.append(pocetniUslovi[8].real)
+    rho02re.append(pocetniUslovi[2].real)
+    rho02im.append(pocetniUslovi[2].imag)
+plt.plot(time,rho00, label = 'rho00')
+plt.plot(time,rho11, label = 'rho11')
+plt.plot(time,rho22, label = 'rho22')
+plt.legend()
+plt.xlabel("vreme")
+plt.ylabel("rho")
+plt.show()
+
+plt.plot(time,rho02re, label = 'realni deo')
+plt.plot(time,rho02im, label = 'imaginarni deo')
+plt.legend()
+plt.xlabel("vreme")
+plt.ylabel("rho02")
 plt.show()
