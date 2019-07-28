@@ -33,6 +33,11 @@ I = complex(0,1)
 
 matricaGustineIm = []
 matricaGustineRe = []
+rho11 = []
+rho22 = []
+rho00 = []
+rho02re = []
+rho02im = []
 t = 0.
 h = 0.02
 ro00re = []
@@ -89,21 +94,16 @@ def mnozenjeK(ro):
     f9 = -Gamma02*ro[8] - Gamma12*ro[8] - 1.0*I*(-0.5*oc2*ro[5] + 0.5*oc2*ro[7] - 0.5*op*ro[2] + 0.5*op*ro[6])
     return(f1,f2,f3,f4,f5,f6,f7,f8,f9)
 def dodavanjeRo(k,ro):
-    ro00 = ro[0]+(h/2.)+k[0]
-    ro01 = ro[1]+(h/2.)+k[1]
-    ro02 = ro[2]+(h/2.)+k[2]
-    ro10 = ro[3]+(h/2.)+k[3]
-    ro11 = ro[4]+(h/2.)+k[4]
-    ro12 = ro[5]+(h/2.)+k[5]
-    ro20 = ro[6]+(h/2.)+k[6]
-    ro21 = ro[7]+(h/2.)+k[7]
-    ro22 = ro[8]+(h/2.)+k[8]
-    return(ro00,ro01,ro02,ro10,ro11,ro12,ro20,ro21,ro22)
-rho11 = []
-rho22 = []
-rho00 = []
-rho02re = []
-rho02im = []
+    pocetniUslovi[0] = ro[0]+(h/2.)+k[0]
+    pocetniUslovi[1] = ro[1]+(h/2.)+k[1]
+    pocetniUslovi[2] = ro[2]+(h/2.)+k[2]
+    pocetniUslovi[3] = ro[3]+(h/2.)+k[3]
+    pocetniUslovi[4] = ro[4]+(h/2.)+k[4]
+    pocetniUslovi[5] = ro[5]+(h/2.)+k[5]
+    pocetniUslovi[6] = ro[6]+(h/2.)+k[6]
+    pocetniUslovi[7] = ro[7]+(h/2.)+k[7]
+    pocetniUslovi[8] = ro[8]+(h/2.)+k[8]
+    return(pocetniUslovi)
 while (t<4):
     K1 = mnozenjeK(pocetniUslovi)
     RO1 = dodavanjeRo(K1,pocetniUslovi)
