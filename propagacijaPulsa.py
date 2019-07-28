@@ -11,11 +11,11 @@ import scipy
 import scipy.integrate as integrate
 from scipy.fftpack import fft, ifft
 
-dc=0.1
-dp=0.1
-oc=1.
+dc=0.
+dp=0.
+oc=5.
 op=0.5
-W = 0.01
+W = 0.001
 gamma01=1.
 gamma02=1.
 I = complex(0,1)
@@ -28,11 +28,11 @@ epsilon = 1
 
 #vraca ro02 sa tildom
 def f (w):
-    sistem = [[I*w+(-gamma01+I*(dc-dp)),-I*0.5*oc],[-I*0.5*oc,I*w+(-gamma02 - I*dp)]]
-    resenje = [0,I*0.5*op]
+    sistem = np.array([[I*w-gamma01+I*(dc-dp),-I*0.5*oc],[-I*0.5*oc,I*w-gamma02 - I*dp]])
+    resenje = np.array([0,I*0.5*op])
     jednacina = np.linalg.solve(sistem,resenje)
 #    jednacina1 = jednacina[0]/(I*op)
-    jednacina2 = jednacina[1]/(I*op)
+    jednacina2 = jednacina[1]/(-I*op)
     return(jednacina2)
 
 #funkcija koja racuna povrsinu ispod funkcije za odvojei imaginarni i realni deo
@@ -47,7 +47,7 @@ def integral(func,a,b):
 
 #ovo smo izracunale rucno 
 def gaus(w,W):
-    a = epsilon*W/np.sqrt(2*np.log(2))*np.exp(-w**2*W**2/(8*np.log(8)))/np.sqrt(2)
+    a = epsilon*W/np.sqrt(2*np.log(2))*np.exp(-(w)**2*(W)**2/(8*np.log(8)))/np.sqrt(2)
     return(a)
 
 #Ep0 je niz koji se odmah racuna, to je gaus koji je prethodni prosao kroz fft 
