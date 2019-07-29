@@ -13,9 +13,9 @@ from scipy.fftpack import fft, ifft
 
 dc=0.
 dp=0.
-oc=5.
+oc=0.1
 op=0.5
-W = 0.001
+W = 1
 gamma01=1.
 gamma02=1.
 I = complex(0,1)
@@ -32,7 +32,7 @@ def f (w):
     resenje = np.array([0,I*0.5*op])
     jednacina = np.linalg.solve(sistem,resenje)
 #    jednacina1 = jednacina[0]/(I*op)
-    jednacina2 = jednacina[1]/(-I*op)
+    jednacina2 = jednacina[1]/(I*op)
     return(jednacina2)
 
 #funkcija koja racuna povrsinu ispod funkcije za odvojei imaginarni i realni deo

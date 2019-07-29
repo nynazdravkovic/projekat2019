@@ -49,7 +49,7 @@ t = np.linspace(0,4,100)
 jednacina0 = np.linalg.solve(sistem2,resenje)
 ro01re = np.full(100,jednacina0[1].real)
 ro02im = np.full(100,jednacina0[0].imag)
-ro
+
 for i in range (9):    
     print(jednacina0[i])
     
