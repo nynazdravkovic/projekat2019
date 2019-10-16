@@ -76,7 +76,8 @@ imaginarnaGustina10=[]
 realnaGustina10=[]
 #hamiltonijan za Lambda konfiguraciju 
 #H=[[0, 0, -1/2*op],[0, -(dp-dc), -1/2*oc],[-1/2*op, -1/2*oc, -dp]]
-#hamiltonijan za sistem sa 3 nivoa i 3 lasera
+#Vladanov hamiltonijan:
+H = [[0, -op, 0],[-op, dp, -oc],[0, -oc, dp+dc]]
 oc1 = sympy.Symbol('oc1')
 oc2 = sympy.Symbol('oc2')
 op = sympy.Symbol('op')
@@ -84,7 +85,8 @@ dc2 = sympy.Symbol('dc2')
 dp = sympy.Symbol('dp')
 dc1 = sympy.Symbol('dc1')
 fi = 0
-H=[[0,-1/2*oc1,-1/2*op],[-1/2*oc1,dc1,-1/2*oc2],[-1/2*op,-1/2*oc2,-dp]]
+#hamiltonijan za sistem sa 3 nivoa i 3 lasera
+#H=[[0,-1/2*oc1,-1/2*op],[-1/2*oc1,dc1,-1/2*oc2],[-1/2*op,-1/2*oc2,-dp]]
 for i in range(len(H)):
    for j in range(len(ro[0])):
        for k in range(len(ro)):

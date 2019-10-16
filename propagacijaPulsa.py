@@ -4,7 +4,7 @@ Created on Wed Jul 24 11:01:39 2019
 
 @author: nina
 """
-
+#Lambda sistem
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy
@@ -15,23 +15,23 @@ dc=0.
 dp=0.
 oc=0.1
 op=0.5
-W = 1
+W = 1.
 gamma01=1.
 gamma02=1.
 I = complex(0,1)
 n=10
 c=1
-udaljenost = np.linspace(0,5,n)
-vreme = np.linspace(0,5,n)
+udaljenost = np.linspace(0,10,n)
+vreme = np.linspace(0,10,n)
 E = np.empty((n,n))
 epsilon = 1
 
 #vraca ro02 sa tildom
 def f (w):
-    sistem = np.array([[I*w-gamma01+I*(dc-dp),-I*0.5*oc],[-I*0.5*oc,I*w-gamma02 - I*dp]])
-    resenje = np.array([0,I*0.5*op])
+    sistem = np.array([[I*w-gamma01-I*(dc-dp),I*0.5*oc],[I*0.5*oc,I*w-gamma02 + I*dp]])
+    resenje = np.array([0,-I*0.5*op])
     jednacina = np.linalg.solve(sistem,resenje)
-#    jednacina1 = jednacina[0]/(I*op)
+#    jednacina za ro02
     jednacina2 = jednacina[1]/(I*op)
     return(jednacina2)
 
@@ -86,6 +86,9 @@ plt.colorbar()
 plt.show()
 plt.contourf(T[1], T[0], poljemoduo, N, cmap="viridis")
 plt.colorbar()
+plt.title("Moduo probnog polja, Ep")
+plt.xlabel("x[m]")
+plt.ylabel("t[s]")
 plt.show()
 #
 
